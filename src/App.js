@@ -10,7 +10,7 @@ function App() {
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
 
   useEffect(() => {
-    fetch("https://661e9e3716358961cd92650a.mockapi.io/photo-collections")
+    fetch(`https://661e9e3716358961cd92650a.mockapi.io/photo-collections?${selectedCategoryId ? `category=${selectedCategoryId}` : ""}`)
       .then((res) => res.json())
       .then((json) => {
         setCollections(json);
@@ -19,7 +19,7 @@ function App() {
         console.warn(err);
         alert("Failed to load data");
       });
-  }, []);
+  }, [selectedCategoryId]);
 
   return (
     <div className="App">
