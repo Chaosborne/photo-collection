@@ -8,8 +8,10 @@ function App() {
   const [searchValue, setSeacrhValue] = useState("");
   const [collections, setCollections] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`https://661e9e3716358961cd92650a.mockapi.io/photo-collections?${selectedCategoryId ? `category=${selectedCategoryId}` : ""}`)
       .then((res) => res.json())
       .then((json) => {
@@ -18,7 +20,8 @@ function App() {
       .catch((err) => {
         console.warn(err);
         alert("Failed to load data");
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, [selectedCategoryId]);
 
   return (
@@ -41,11 +44,13 @@ function App() {
         <input onChange={(e) => setSeacrhValue(e.target.value)} value={searchValue} className="search-input" placeholder="Search by name" />
       </div>
       <div className="content">
-        {collections
-          .filter((obj) => obj.name.toLowerCase().includes(searchValue.toLowerCase()))
-          .map((col, index) => (
-            <Collection key={index} name={col.name} images={col.photos} />
-          ))}
+        {isLoading ? (
+          <h2>Loading</h2>
+        ) : (
+          collections
+            .filter((obj) => obj.name.toLowerCase().includes(searchValue.toLowerCase()))
+            .map((col, index) => <Collection key={index} name={col.name} images={col.photos} />)
+        )}
       </div>
       <ul className="pagination">
         <li>1</li>
