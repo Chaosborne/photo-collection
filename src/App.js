@@ -15,7 +15,6 @@ function App() {
     setIsLoading(true);
 
     const category = selectedCategoryId ? `category=${selectedCategoryId}` : "";
-    const pageParam = `page=${page}`;
 
     fetch(`https://661e9e3716358961cd92650a.mockapi.io/photo-collections?${category}&page=${page}&limit=3`)
       .then((res) => res.json())
