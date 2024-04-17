@@ -13,7 +13,11 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`https://661e9e3716358961cd92650a.mockapi.io/photo-collections?${selectedCategoryId ? `category=${selectedCategoryId}` : ""}`)
+
+    const category = selectedCategoryId ? `category=${selectedCategoryId}` : "";
+    const pageParam = `page=${page}`;
+
+    fetch(`https://661e9e3716358961cd92650a.mockapi.io/photo-collections?${category}&page=${page}&limit=3`)
       .then((res) => res.json())
       .then((json) => {
         setCollections(json);
@@ -23,7 +27,7 @@ function App() {
         alert("Failed to load data");
       })
       .finally(() => setIsLoading(false));
-  }, [selectedCategoryId]);
+  }, [selectedCategoryId, page]);
 
   return (
     <div className="App">
@@ -56,7 +60,7 @@ function App() {
       <ul className="pagination">
         {
           // Let's create fake pages on user side
-          [...Array(5)].map((_, i) => (
+          [...Array(3)].map((_, i) => (
             <li className={page === i + 1 ? "active" : ""} onClick={() => setPage(i + 1)} key={i}>
               {i + 1}
             </li>
