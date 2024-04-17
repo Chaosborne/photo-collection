@@ -9,6 +9,7 @@ function App() {
   const [collections, setCollections] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
@@ -53,9 +54,14 @@ function App() {
         )}
       </div>
       <ul className="pagination">
-        <li>1</li>
-        <li className="active">2</li>
-        <li>3</li>
+        {
+          // Let's create fake pages on user side
+          [...Array(5)].map((_, i) => (
+            <li className={page === i + 1 ? "active" : ""} onClick={() => setPage(i + 1)} key={i}>
+              {i + 1}
+            </li>
+          ))
+        }
       </ul>
     </div>
   );
